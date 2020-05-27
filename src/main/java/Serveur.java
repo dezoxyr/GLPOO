@@ -3,28 +3,60 @@ import java.net.*;
 
 public class Serveur {
 
-	private String ip = "localhost";
+	private boolean isrunning = true;
+	private ServerSocket ss;
 	
-	public void connect(String ip) {
+	
+	public void connect(String ip, int port) {
 		try {
-			ServerSocket ss = new ServerSocket (6666);
+			ss = new ServerSocket (port,10,InetAddress.getByName(ip));
 			System.out.println("Server waiting for connection...");
-			while (true) {
-				Socket socket = ss.accept(); //établit la connexion
-				System.out.println("Connected as " + ip);
-				InputStream input = socket.getInputStream();
-				BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-				OutputStream output = socket.getOutputStream();
-				PrintWriter writer = new PrintWriter(output, true);
-				String text = reader.readLine();
-				String reverseText = new StringBuilder(text).reverse().toString();
-				writer.println("Server response: " + reverseText);
-				output.close();
-				input.close();
-				socket.close();
-			}
 		} catch (IOException ioe) {
 			System.out.println (ioe.getMessage());
 		}
 	}
+	
+	public void open() {
+		Thread t = new Thread(new Runnable() {
+			public void run() {
+				
+				while (isrunning == true) {
+					try {
+						
+						
+						
+						Socket socket = ss.accept(); //établit la connexion
+						System.out.println("Connection recu");
+						OutputStream output = socket.getOutputStream();
+						InputStream input = socket.getInputStream();
+						BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+						PrintWriter writer = new PrintWriter(output, true);
+						
+						Thread reception = new Thread(new Runnable() {
+							@Override
+							public void run() {
+								String text = null;
+								while(true) {
+									try {
+									text = reader.readLine();
+									}catch(IOException ioe) {System.out.println (ioe.getMessage());}
+									//String reverseText = new StringBuilder(text).reverse().toString();
+									writer.write("Server response: " + text/*reverseText*/+"\n");
+									
+									writer.flush();
+								}
+							}
+							
+						});
+						reception.start();
+						
+					}catch(IOException ioe) {
+						System.out.println (ioe.getMessage());
+					}
+				}
+			}
+		});	
+		t.start();
+	}
+	
 }
