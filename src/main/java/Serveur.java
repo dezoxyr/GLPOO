@@ -26,7 +26,7 @@ public class Serveur {
 						
 						
 						Socket socket = ss.accept(); //établit la connexion
-						System.out.println("Connection recu");
+						System.out.println("Connexion recu");
 						OutputStream output = socket.getOutputStream();
 						InputStream input = socket.getInputStream();
 						BufferedReader reader = new BufferedReader(new InputStreamReader(input));
