@@ -1,7 +1,10 @@
+package client;
 import java.awt.Dimension;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
+
+import server.middleware.Serveur;
 
 public class Main {
 
