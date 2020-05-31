@@ -1,14 +1,15 @@
 package client;
 import java.awt.Dimension;
 import java.util.concurrent.TimeUnit;
-
 import javax.swing.JFrame;
-
+import server.database.Database;
 import server.middleware.Serveur;
 
 public class Main {
 
 	public static void main(String[] args) {
+		Database.init();
+		
 		Client c1 = new Client();
 		Client c2 = new Client();
 		Serveur s = new Serveur();
@@ -27,7 +28,7 @@ public class Main {
 			
 		}catch (InterruptedException ex) {
 			System.out.println("error");
-		}	
+		}
 		
 		
 		
@@ -36,6 +37,6 @@ public class Main {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		
-		frame.setVisible(true);*/
+		frame.setVisible(true); */
 	}
 }
