@@ -1,6 +1,8 @@
 package client;
 import java.io.*;
-import java.net.*; 
+import java.net.*;
+
+import utils.Message; 
 
 
 public class Client{
@@ -58,8 +60,8 @@ public class Client{
 		}catch (IOException ioe) {System.out.println(ioe.getMessage());}
 	}
 	
-	public void msg(String text) {
-		sendText(this.socket, text);
+	public void msg(Message message) {
+		sendText(this.socket, message.getMessage());
 	}
 	
 }

@@ -2,6 +2,8 @@ package server.middleware;
 import java.io.*;
 import java.net.*;
 
+import server.database.Database;
+
 public class Serveur {
 
 	private boolean isrunning = true;
@@ -43,8 +45,9 @@ public class Serveur {
 									}catch(IOException ioe) {System.out.println (ioe.getMessage());}
 									//String reverseText = new StringBuilder(text).reverse().toString();
 									writer.write("Server response: " + text/*reverseText*/+"\n");
-									
 									writer.flush();
+									
+									//TODO : Database.store(msg);
 								}
 							}
 							
