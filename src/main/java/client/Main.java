@@ -15,8 +15,8 @@ public class Main {
 	public static void main(String[] args) {
 		Database.init();
 		
-		Client c1 = new Client();
-		Client c2 = new Client();
+		Client c1 = new Client("Malko");
+		Client c2 = new Client("Alexis");
 		Serveur s = new Serveur();
 		
 		s.connect("127.0.0.1", 6666); //Crée un serveur a l'ip "127.0.0.1" et sur le port 6666
@@ -28,10 +28,10 @@ public class Main {
 		try {
 			Thread.sleep(300);	//tempo afin de laisser le temps de connecter les clients au serveur
 			
-			Message msg1 = new Message("Malko", "Bonjour je suis Malko", UUID.randomUUID());
+			Message msg1 = new Message(c1.getClient(), "Bonjour je suis Malko");
 			c1.msg(msg1);//envoie un message au serveur
 			
-			Message msg2 = new Message("Alexis", "Bonjour je suis Alexis", UUID.randomUUID());
+			Message msg2 = new Message(c2.getClient(), "Bonjour je suis Alexis");
 			c2.msg(msg2);
 			
 			

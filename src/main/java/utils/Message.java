@@ -5,12 +5,10 @@ import java.util.UUID;
 public class Message {
 	private String sender;
 	private String message;
-	private UUID convId;
 	
-	public Message(String sender, String message, UUID convId){
+	public Message(String sender, String message){
 		this.sender = sender;
 		this.message = message;
-		this.convId = convId;
 	}
 	
 	
@@ -20,10 +18,6 @@ public class Message {
 	
 	public String getMessage() {
 		return this.message;
-	}
-	
-	public UUID getConvId() {
-		return this.convId;
 	}
 	
 }

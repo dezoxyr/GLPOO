@@ -13,6 +13,15 @@ public class Client{
 	private OutputStream output;
 	private InputStream input;
 	private BufferedReader reader;
+	private String pseudo;
+	
+	public Client(String pseudo) {
+		this.pseudo = pseudo;
+	}
+	
+	public String getClient() {
+		return this.pseudo;
+	}
 	
 	public void connect(String ip, int port) {
 
