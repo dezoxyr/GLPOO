@@ -1,8 +1,10 @@
 package server.middleware;
 import java.io.*;
 import java.net.*;
+import java.util.UUID;
 
 import server.database.Database;
+import utils.Message;
 
 public class Serveur {
 
@@ -25,11 +27,8 @@ public class Serveur {
 				
 				while (isrunning == true) {
 					try {
-						
-						
-						
 						Socket socket = ss.accept(); //établit la connexion
-						System.out.println("Connexion recu");
+						System.out.println("Connexion recue");
 						OutputStream output = socket.getOutputStream();
 						InputStream input = socket.getInputStream();
 						BufferedReader reader = new BufferedReader(new InputStreamReader(input));
@@ -46,8 +45,7 @@ public class Serveur {
 									//String reverseText = new StringBuilder(text).reverse().toString();
 									writer.write("Server response: " + text/*reverseText*/+"\n");
 									writer.flush();
-									
-									//TODO : Database.store(msg);
+									Database.store(new Message(ss.getLocalSocketAddress().toString(), text, UUID.randomUUID()));
 								}
 							}
 							

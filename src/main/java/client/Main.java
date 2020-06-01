@@ -1,9 +1,12 @@
 package client;
 import java.awt.Dimension;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import javax.swing.JFrame;
 import server.database.Database;
+import server.database.DatabaseReader;
 import server.middleware.Serveur;
 import utils.Message;
 
@@ -21,6 +24,7 @@ public class Main {
 		
 		c1.connect("127.0.0.1",6666); //Connecte un client sur l'ip "127.0.0.1" et sur le port 6666 renvoi une erreur si il n'y a pas de serveur ouvert
 		c2.connect("127.0.0.1",6666);
+
 		try {
 			Thread.sleep(300);	//tempo afin de laisser le temps de connecter les clients au serveur
 			
@@ -33,7 +37,7 @@ public class Main {
 			
 		}catch (InterruptedException ex) {
 			System.out.println("error");
-		}
+		} 
 		
 		
 		
