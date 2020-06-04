@@ -2,9 +2,9 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>projet-test</groupId>
   <artifactId>GLPOO</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.2-SNAPSHOT</version>
   <name>Projet GLPOO</name>
-  <description>Sallon de discussion</description>
+  <description>Salon de discussion</description>
   
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>

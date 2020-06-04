@@ -1,7 +1,5 @@
 package utils;
 
-import java.util.UUID;
-
 public class Message {
 	private String sender;
 	private String message;

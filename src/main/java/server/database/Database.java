@@ -4,7 +4,7 @@ import java.sql.*;
 
 import utils.Message;
 
-public class Database {
+public class Database { //Singleton
 
 	private static Connection conn;
 	
@@ -14,7 +14,7 @@ public class Database {
 				Class.forName("org.sqlite.JDBC");
 				try {
 					conn = DriverManager.getConnection("jdbc:sqlite:sqlite.db");
-					DatabaseBuilder.createTables();
+					Database.create();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -53,6 +53,10 @@ public class Database {
 	
 	public static void store(Message msg) {
 		DatabaseLogger.store(msg);
+	}
+	
+	private static void create() {
+		DatabaseBuilder.createTables();
 	}
 	
 }

@@ -28,10 +28,10 @@ public class Main {
 		try {
 			Thread.sleep(300);	//tempo afin de laisser le temps de connecter les clients au serveur
 			
-			Message msg1 = new Message(c1.getClient(), "Bonjour je suis Malko");
+			Message msg1 = new Message(c1.getPseudo(), "Bonjour je suis Malko");
 			c1.msg(msg1);//envoie un message au serveur
 			
-			Message msg2 = new Message(c2.getClient(), "Bonjour je suis Alexis");
+			Message msg2 = new Message(c2.getPseudo(), "Bonjour je suis Alexis");
 			c2.msg(msg2);
 			
 			

@@ -5,22 +5,22 @@ import java.net.*;
 import utils.Message; 
 
 
-public class Client{
+public class Client{ //Singleton
 	
 	
-	private Socket socket;
+	private static Socket socket;
 	private PrintWriter writer;
 	private OutputStream output;
 	private InputStream input;
 	private BufferedReader reader;
-	private String pseudo;
+	private static String pseudo;
 	
-	public Client(String pseudo) {
-		this.pseudo = pseudo;
+	public Client(String p) {
+		pseudo = p;
 	}
 	
-	public String getClient() {
-		return this.pseudo;
+	public String getPseudo() {
+		return pseudo;
 	}
 	
 	public void connect(String ip, int port) {
@@ -70,7 +70,7 @@ public class Client{
 	}
 	
 	public void msg(Message message) {
-		sendText(this.socket, message.getMessage());
+		sendText(socket, message.getMessage());
 	}
 	
 }
