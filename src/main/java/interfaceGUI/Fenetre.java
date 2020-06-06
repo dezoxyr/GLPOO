@@ -42,6 +42,8 @@ public class Fenetre extends JFrame implements ActionListener {
 
 	private static JTextField textIP = new JTextField("127.0.0.1");
 	private static JTextField textPort = new JTextField("6668");
+	private static JTextField textOwner = new JTextField();
+
 	private static JTextField textMessage = new JTextField();
 	private static JTextField textPseudo = new JTextField();
 
@@ -50,6 +52,8 @@ public class Fenetre extends JFrame implements ActionListener {
 	private JLabel labelPort = new JLabel("Port : ");
 	private JLabel labelMessage = new JLabel("Message : ");
 	private JLabel labelPseudo = new JLabel("Pseudo : ");
+	private JLabel labelOwner = new JLabel("Propriétaire : ");
+
 	private static JLabel label;
 	
 	private int PortValue;
@@ -98,6 +102,7 @@ public class Fenetre extends JFrame implements ActionListener {
 		textPort.setMaximumSize(new Dimension(200,24));
 		textMessage.setMaximumSize(new Dimension(200,24));
 		textPseudo.setMaximumSize(new Dimension(200,24));
+		textOwner.setMaximumSize(new Dimension(200,24));
 	}
 	
 	private void setActionListener() {
@@ -131,7 +136,9 @@ public class Fenetre extends JFrame implements ActionListener {
 		if(source == boutonCreate){
 			boutonCreate.setEnabled(false);
 			boutonJoin.setEnabled(false);
-
+			
+			panel2.add(labelOwner);
+			panel2.add(textOwner);
 			panel2.add(labelIP);
 			panel2.add(textIP);
 			panel2.add(labelPort);
@@ -166,6 +173,8 @@ public class Fenetre extends JFrame implements ActionListener {
 			panel2.remove(textPort);
 			panel2.remove(labelIP);
 			panel2.remove(labelPort);
+			panel2.remove(labelOwner);
+			panel2.remove(textOwner);			
 			panel3.remove(boutonValidateCreate);
 		}
 		
