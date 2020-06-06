@@ -3,6 +3,7 @@ import java.io.*;
 import java.net.*;
 import java.util.UUID;
 
+import interfaceGUI.Fenetre;
 import server.database.Database;
 import utils.Message;
 
@@ -42,9 +43,9 @@ public class Serveur {
 									try {
 									text = reader.readLine();
 									}catch(IOException ioe) {System.out.println (ioe.getMessage());}
-									//String reverseText = new StringBuilder(text).reverse().toString();
-									writer.write("Server response: " + text/*reverseText*/+"\n");
+									writer.write(text+"\n");
 									writer.flush();
+									
 								}
 							}
 							

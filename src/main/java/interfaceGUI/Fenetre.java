@@ -6,6 +6,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import client.Client;
+import server.database.Database;
 import server.database.DatabaseReader;
 import server.middleware.Serveur;
 
@@ -32,24 +33,24 @@ public class Fenetre extends JFrame implements ActionListener {
 	private JButton boutonEnvoyerMessage = new JButton("Envoyer");
 	private JButton boutonQuitter = new JButton("Quitter la salle");
 	
-	private JPanel panel = new JPanel();
-	private JPanel panel2 = new JPanel();
-	private JPanel panel3 = new JPanel();
-	private JPanel text = new JPanel();
-    private JScrollPane panelscroll= new JScrollPane(text);
-	private JPanel panel4 = new JPanel();
+	private static JPanel panel = new JPanel();
+	private static JPanel panel2 = new JPanel();
+	private static JPanel panel3 = new JPanel();
+	private static JPanel text = new JPanel();
+    private static JScrollPane panelscroll= new JScrollPane(text);
+	private static JPanel panel4 = new JPanel();
 
-	private JTextField textIP = new JTextField("127.0.0.1");
-	private JTextField textPort = new JTextField("6668");
-	private JTextField textMessage = new JTextField();
-	private JTextField textPseudo = new JTextField();
+	private static JTextField textIP = new JTextField("127.0.0.1");
+	private static JTextField textPort = new JTextField("6668");
+	private static JTextField textMessage = new JTextField();
+	private static JTextField textPseudo = new JTextField();
 
 	
 	private JLabel labelIP = new JLabel("Adresse IP : ");
 	private JLabel labelPort = new JLabel("Port : ");
 	private JLabel labelMessage = new JLabel("Message : ");
 	private JLabel labelPseudo = new JLabel("Pseudo : ");
-	private JLabel label;
+	private static JLabel label;
 	
 	private int PortValue;
 	private String Ipvalue;;			
@@ -58,7 +59,7 @@ public class Fenetre extends JFrame implements ActionListener {
 	private String clientPseudo;
 	
 	private Serveur s = new Serveur();
-	private Client c1;
+	private static Client c1;
 	
 	public void buildPanel() {
 		setTitle("Messagerie");
@@ -109,8 +110,9 @@ public class Fenetre extends JFrame implements ActionListener {
 		boutonJoin.addActionListener(this);
 	}
 	
-	public void readDatabase() {
-        ResultSet resultSet = DatabaseReader.getMessages();
+	public static void readDatabase() {
+		text.removeAll();
+        ResultSet resultSet = DatabaseReader.getMessages(c1.getPseudo());
         try {
             while (resultSet.next()) {
                 label = new JLabel(resultSet.getString("pseudo")+" : "+resultSet.getString("msg"));
@@ -119,6 +121,8 @@ public class Fenetre extends JFrame implements ActionListener {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }	
+        text.revalidate();
+        text.repaint();
 	}
 	
 	public void actionPerformed(ActionEvent e) {
@@ -181,6 +185,7 @@ public class Fenetre extends JFrame implements ActionListener {
 
 			c1 = new Client(clientPseudo);
 			c1.connect(Ipvalue,PortValue);
+			Database.init(c1.getPseudo());
 			
 			panel2.remove(textIP);
 			panel2.remove(textPort);

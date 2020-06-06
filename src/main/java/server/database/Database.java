@@ -8,13 +8,13 @@ public class Database { //Singleton
 
 	private static Connection conn;
 	
-	public static void init() {
+	public static void init(String pseudo) {
 		if(conn == null) {
 			try {
 				Class.forName("org.sqlite.JDBC");
 				try {
 					conn = DriverManager.getConnection("jdbc:sqlite:sqlite.db");
-					Database.create();
+					Database.create(pseudo);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -55,8 +55,8 @@ public class Database { //Singleton
 		DatabaseLogger.store(msg);
 	}
 	
-	private static void create() {
-		DatabaseBuilder.createTables();
+	private static void create(String pseudo) {
+		DatabaseBuilder.createTables(pseudo);
 	}
 	
 }

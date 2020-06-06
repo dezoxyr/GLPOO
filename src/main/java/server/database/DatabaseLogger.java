@@ -9,7 +9,7 @@ public class DatabaseLogger {
 
 	public static void store(Message msg){
 		try {
-			PreparedStatement ps = Database.getConnection().prepareStatement("INSERT INTO messages(pseudo,msg,date) VALUES (?,?,CURRENT_DATE)");
+			PreparedStatement ps = Database.getConnection().prepareStatement("INSERT INTO "+msg.getSender()+"(pseudo,msg,date) VALUES (?,?,CURRENT_DATE)");
 			
 			ps.setString(1, msg.getSender().toString());
 			ps.setString(2, msg.getMessage().toString());
