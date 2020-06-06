@@ -5,8 +5,9 @@ import java.sql.SQLException;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import javax.swing.JFrame;
+
+import interfaceGUI.Fenetre;
 import server.database.Database;
-import server.database.DatabaseReader;
 import server.middleware.Serveur;
 import utils.Message;
 
@@ -18,7 +19,7 @@ public class Main {
 		Client c1 = new Client("Malko");
 		Client c2 = new Client("Alexis");
 		Serveur s = new Serveur();
-		
+		Fenetre fenetre = new Fenetre();
 		s.connect("127.0.0.1", 6666); //Crée un serveur a l'ip "127.0.0.1" et sur le port 6666
 		s.open();					  //Ouvre le serveur
 		
@@ -38,6 +39,8 @@ public class Main {
 		}catch (InterruptedException ex) {
 			System.out.println("error");
 		} 
+		
+		fenetre.buildPanel();
 		
 		
 		
