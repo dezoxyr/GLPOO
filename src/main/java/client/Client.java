@@ -31,63 +31,61 @@ public class Client{ //Singleton
 
 		try { //ouvre le socket
 			socket = new Socket(ip, port);
-			
-			
-		} catch (UnknownHostException uhe) {
-			System.out.println(uhe.getMessage());
-		} catch (IOException ioe) {
-			System.out.println(ioe.getMessage());
-		}
-	}
-	
-	public void sendText(Socket socket, String msg) {
-		try {
 			output = socket.getOutputStream(); //ouvre un flux de sortie vers le socket
 			input = socket.getInputStream(); //ouvre un flux d’entrée vers le socket
 			writer = new PrintWriter(output, true);// écrit vers le flux de sortie, en accord avec le protocole du serveur!
 			reader = new BufferedReader(new InputStreamReader(input));
 			
-			Thread envoyer = new Thread(new Runnable() {
-				@Override
-				public void run() {
-					writer.write(msg+"\n");
-					writer.flush();
-					
-				}	
-			});
-			envoyer.start();
+			receive();
 			
-			Thread recevoir = new Thread(new Runnable() {
-				@Override
-				public void run() {
-					Message rmsg = null;
-					String line = null;
-					try {
-					line = reader.readLine(); //lit le flux d’entrée, en accord avec le protocole du serveur!
-					Gson gson = new Gson();
-					rmsg = gson.fromJson(line, Message.class);
-					}catch(IOException ioe) {
-						System.out.println(ioe.getMessage());
-					}
-					
-					Fenetre.readDatabase();
-					System.out.println(rmsg.getMessage());
-					
-					Database.store(new Message(rmsg.getSender(), rmsg.getMessage()));
-				}
-			});
-			recevoir.start();
-		
-		}catch (IOException ioe) {System.out.println(ioe.getMessage());}
+			
+		} catch (UnknownHostException uhe) {
+			System.out.println(uhe.getMessage());
+		} catch (IOException ioe) {			System.out.println(ioe.getMessage());
+		}
+	}
+	
+	public void sendText(Socket socket, String msg) {
+		Thread envoyer = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				writer.write(msg+"\n");
+				writer.flush();
+			}	
+		});
+		envoyer.start();
 	}
 	
 	public void msg(Message message) {
 		Gson gson = new Gson();
 		String json = gson.toJson(message);
 		sendText(socket, json);
-		
-		Database.store(new Message(message.getSender(), message.getMessage()));
-
+	}
+	
+	public void receive() {
+		Thread recevoir = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Message rmsg = null;
+				Gson gson = new Gson();
+				String line = null;
+				while(true){
+					try {
+						if(reader.readLine() != null) {
+							line = reader.readLine(); //lit le flux d’entrée, en accord avec le protocole du serveur!
+							System.out.println(line);
+							rmsg = gson.fromJson(line, Message.class);
+							System.out.println(rmsg.getMessage());
+							Database.store(pseudo,new Message(rmsg.getSender(), rmsg.getMessage()));
+							Fenetre.readDatabase();
+						}
+					}catch(IOException ioe) {
+						System.out.println(ioe.getMessage());
+					}
+				}
+			}
+		});
+		recevoir.start();
 	}
 	
 }

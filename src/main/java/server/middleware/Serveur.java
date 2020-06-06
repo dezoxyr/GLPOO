@@ -1,16 +1,19 @@
 package server.middleware;
 import java.io.*;
 import java.net.*;
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
 
-import interfaceGUI.Fenetre;
-import server.database.Database;
+import com.google.gson.Gson;
+
 import utils.Message;
 
 public class Serveur {
 
 	private boolean isrunning = true;
 	private ServerSocket ss;
+	private List<Socket> sockets = new ArrayList<Socket>();
+	private String owner;
 	
 	
 	public void connect(String ip, int port) {
@@ -22,7 +25,9 @@ public class Serveur {
 		}
 	}
 	
-	public void open() {
+	public void open(String owner) {
+		this.owner = owner;
+		System.out.println("Bonjour je suis le serveur :-)");
 		Thread t = new Thread(new Runnable() {
 			public void run() {
 				
@@ -30,28 +35,42 @@ public class Serveur {
 					try {
 						Socket socket = ss.accept(); //établit la connexion
 						System.out.println("Connexion recue");
-						OutputStream output = socket.getOutputStream();
-						InputStream input = socket.getInputStream();
-						BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-						PrintWriter writer = new PrintWriter(output, true);
+						sockets.add(socket);
 						
-						Thread reception = new Thread(new Runnable() {
-							@Override
-							public void run() {
-								String text = null;
-								while(true) {
-									try {
-									text = reader.readLine();
-									}catch(IOException ioe) {System.out.println (ioe.getMessage());}
-									writer.write(text+"\n");
-									writer.flush();
-									
-								}
-							}
+						for(Socket s: sockets) {
+							BufferedReader reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
+							PrintWriter writer = new PrintWriter(s.getOutputStream(), true);
 							
-						});
-						reception.start();
-						
+							Thread reception = new Thread(new Runnable() {
+								@Override
+								public void run() {
+									String text = null;
+									Message rmsg = null;
+									Gson gson = new Gson();
+									while(true) {
+										try {
+										text = reader.readLine();
+										rmsg = gson.fromJson(text, Message.class);
+										System.out.println("Server> "+rmsg.getMessage());
+										}catch(IOException ioe) {System.out.println (ioe.getMessage());}
+									
+										for(Socket s: sockets) {
+											PrintWriter writer = null;
+											try {
+												writer = new PrintWriter(s.getOutputStream(), true);
+											} catch (IOException e) {
+												e.printStackTrace();
+											}
+											writer.write("\n"+text+"\n");
+											writer.flush();
+										}
+										
+									}
+								}
+								
+							});
+							reception.start();
+						}
 					}catch(IOException ioe) {
 						System.out.println (ioe.getMessage());
 					}

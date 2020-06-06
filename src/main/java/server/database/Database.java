@@ -51,8 +51,8 @@ public class Database { //Singleton
 	}
 	
 	
-	public static void store(Message msg) {
-		DatabaseLogger.store(msg);
+	public static void store(String table, Message msg) {
+		DatabaseLogger.store(table, msg);
 	}
 	
 	private static void create(String pseudo) {

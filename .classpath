@@ -35,6 +35,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/MALKO-PC/Desktop/sqlite-jdbc-3.30.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lsevi_000/Desktop/sqlite-jdbc-3.30.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

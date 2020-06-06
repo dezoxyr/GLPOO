@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 
 public class DatabaseReader extends Database{
 	public static ResultSet getMessages(String pseudo) {
-		return Database.query("SELECT * from "+pseudo);		
+		return Database.query("SELECT * from "+pseudo+" ORDER BY date");		
 	}
-
 }

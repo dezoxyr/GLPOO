@@ -158,7 +158,7 @@ public class Fenetre extends JFrame implements ActionListener {
 			panel3.add(boutonValidateJoin);
 		}
 		
-		if(source == boutonValidateCreate){
+		if(source == boutonValidateCreate) {
 			boutonCreate.setEnabled(true);
 			boutonJoin.setEnabled(true);
 			
@@ -167,7 +167,7 @@ public class Fenetre extends JFrame implements ActionListener {
 			PortValue = Integer.parseInt(PortValueString);
 			
 			s.connect(Ipvalue, PortValue);
-			s.open();
+			s.open(textOwner.getText());
 			
 			panel2.remove(textIP);
 			panel2.remove(textPort);
@@ -175,9 +175,9 @@ public class Fenetre extends JFrame implements ActionListener {
 			panel2.remove(labelPort);
 			panel2.remove(labelOwner);
 			panel2.remove(textOwner);			
-			panel3.remove(boutonValidateCreate);
+			panel3.remove(boutonValidateCreate);	
 		}
-		
+	
 		if(source == boutonValidateJoin){
 
 			panelscroll.setVisible(true);
