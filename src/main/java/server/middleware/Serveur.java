@@ -45,7 +45,6 @@ public class Serveur {
 									//String reverseText = new StringBuilder(text).reverse().toString();
 									writer.write("Server response: " + text/*reverseText*/+"\n");
 									writer.flush();
-									Database.store(new Message(ss.getLocalSocketAddress().toString(), text));
 								}
 							}
 							

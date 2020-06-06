@@ -2,6 +2,7 @@ package client;
 import java.io.*;
 import java.net.*;
 
+import server.database.Database;
 import utils.Message; 
 
 
@@ -71,6 +72,8 @@ public class Client{ //Singleton
 	
 	public void msg(Message message) {
 		sendText(socket, message.getMessage());
+		Database.store(new Message(message.getSender(), message.getMessage()));
+
 	}
 	
 }
