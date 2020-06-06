@@ -35,17 +35,16 @@ public class Client{ //Singleton
 			input = socket.getInputStream(); //ouvre un flux d’entrée vers le socket
 			writer = new PrintWriter(output, true);// écrit vers le flux de sortie, en accord avec le protocole du serveur!
 			reader = new BufferedReader(new InputStreamReader(input));
-			
 			receive();
 			
 			
 		} catch (UnknownHostException uhe) {
 			System.out.println(uhe.getMessage());
-		} catch (IOException ioe) {			System.out.println(ioe.getMessage());
+		} catch (IOException ioe) {System.out.println(ioe.getMessage());
 		}
 	}
 	
-	public void sendText(Socket socket, String msg) {
+	public void sendText(Socket socket, String msg) {	
 		Thread envoyer = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -73,14 +72,17 @@ public class Client{ //Singleton
 					try {
 						if(reader.readLine() != null) {
 							line = reader.readLine(); //lit le flux d’entrée, en accord avec le protocole du serveur!
-							System.out.println(line);
 							rmsg = gson.fromJson(line, Message.class);
-							System.out.println(rmsg.getMessage());
-							Database.store(pseudo,new Message(rmsg.getSender(), rmsg.getMessage()));
+							Database.store(pseudo, new Message(rmsg.getSender(), rmsg.getMessage()));
 							Fenetre.readDatabase();
 						}
 					}catch(IOException ioe) {
 						System.out.println(ioe.getMessage());
+						try {
+							socket.close();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 					}
 				}
 			}

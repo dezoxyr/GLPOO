@@ -9,7 +9,6 @@ public class Message {
 		this.message = message;
 	}
 	
-	
 	public String getSender() {
 		return this.sender;
 	}

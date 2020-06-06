@@ -27,34 +27,27 @@ public class Serveur {
 	
 	public void open(String owner) {
 		this.owner = owner;
-		System.out.println("Bonjour je suis le serveur :-)");
 		Thread t = new Thread(new Runnable() {
 			public void run() {
 				
 				while (isrunning == true) {
 					try {
 						Socket socket = ss.accept(); //établit la connexion
-						System.out.println("Connexion recue");
+						System.out.println("Get a connection");
 						sockets.add(socket);
-						
-						for(Socket s: sockets) {
-							BufferedReader reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
-							PrintWriter writer = new PrintWriter(s.getOutputStream(), true);
-							
-							Thread reception = new Thread(new Runnable() {
-								@Override
-								public void run() {
-									String text = null;
-									Message rmsg = null;
-									Gson gson = new Gson();
-									while(true) {
-										try {
-										text = reader.readLine();
-										rmsg = gson.fromJson(text, Message.class);
-										System.out.println("Server> "+rmsg.getMessage());
-										}catch(IOException ioe) {System.out.println (ioe.getMessage());}
-									
-										for(Socket s: sockets) {
+						BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+						Thread reception = new Thread(new Runnable() {
+							@Override
+							public void run() {
+								String text = null;
+								Message rmsg = null;
+								while(true) {
+								try {
+									text = reader.readLine();
+									for(Socket s: sockets) {
+										if(s.isClosed()) {
+											sockets.remove(s);
+										}else {
 											PrintWriter writer = null;
 											try {
 												writer = new PrintWriter(s.getOutputStream(), true);
@@ -64,20 +57,24 @@ public class Serveur {
 											writer.write("\n"+text+"\n");
 											writer.flush();
 										}
-										
+								}
+								}catch(IOException ioe) {
+									try {
+										socket.close();
+									} catch (IOException e) {
+										e.printStackTrace();
 									}
 								}
-								
+								}
+							}
 							});
 							reception.start();
-						}
-					}catch(IOException ioe) {
-						System.out.println (ioe.getMessage());
+						}catch(IOException ioe) {
+							System.out.println (ioe.getMessage());
 					}
 				}
 			}
 		});	
 		t.start();
 	}
-	
 }

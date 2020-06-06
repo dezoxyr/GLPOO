@@ -32,6 +32,7 @@ public class Fenetre extends JFrame implements ActionListener {
 	private JButton boutonValidateJoin = new JButton("Valider");
 	private JButton boutonEnvoyerMessage = new JButton("Envoyer");
 	private JButton boutonQuitter = new JButton("Quitter la salle");
+	private JButton boutonPseudo = new JButton("Valider");
 	
 	private static JPanel panel = new JPanel();
 	private static JPanel panel2 = new JPanel();
@@ -42,7 +43,6 @@ public class Fenetre extends JFrame implements ActionListener {
 
 	private static JTextField textIP = new JTextField("127.0.0.1");
 	private static JTextField textPort = new JTextField("6668");
-	private static JTextField textOwner = new JTextField();
 
 	private static JTextField textMessage = new JTextField();
 	private static JTextField textPseudo = new JTextField();
@@ -52,7 +52,6 @@ public class Fenetre extends JFrame implements ActionListener {
 	private JLabel labelPort = new JLabel("Port : ");
 	private JLabel labelMessage = new JLabel("Message : ");
 	private JLabel labelPseudo = new JLabel("Pseudo : ");
-	private JLabel labelOwner = new JLabel("Propriétaire : ");
 
 	private static JLabel label;
 	
@@ -66,34 +65,41 @@ public class Fenetre extends JFrame implements ActionListener {
 	private static Client c1;
 	
 	public void buildPanel() {
-		setTitle("Messagerie");
-		setMinimumSize(new Dimension(700,500));
-		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("Messagerie");
+        setMinimumSize(new Dimension(700,500));
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
-		panel2.add(Box.createRigidArea(new Dimension(0,100)));
-		panel2.setLayout(new BoxLayout(panel2, BoxLayout.LINE_AXIS));
-		panel3.setLayout(new BoxLayout(panel3, BoxLayout.LINE_AXIS));
-		text.setLayout(new BoxLayout(text, BoxLayout.Y_AXIS));
-		panel4.setLayout(new BoxLayout(panel4, BoxLayout.PAGE_AXIS));
-		
-		panel4.add(panel);
-		panel4.add(panel2);
-		panel4.add(panelscroll);
-		panel4.add(panel3);
-		panel.add(boutonCreate);
-		panel.add(boutonJoin);
-		
-		panelscroll.setVisible(false);
-		text.setBackground(Color.WHITE);
+        panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
+        panel2.add(Box.createRigidArea(new Dimension(0,100)));
+        panel2.setLayout(new BoxLayout(panel2, BoxLayout.LINE_AXIS));
+        panel3.setLayout(new BoxLayout(panel3, BoxLayout.LINE_AXIS));
+        text.setLayout(new BoxLayout(text, BoxLayout.Y_AXIS));
+        panel4.setLayout(new BoxLayout(panel4, BoxLayout.PAGE_AXIS));
 
-		setContentSize();
-		setActionListener();
-		
-		getContentPane().add(panel4);
-		setVisible(true);
-	}
+        panel4.add(panel);
+        panel4.add(panel2);
+        panel4.add(panelscroll);
+        panel4.add(panel3);
+        panel.add(boutonCreate);
+        panel.add(boutonJoin);
+
+        panel2.add(labelPseudo);
+        panel2.add(textPseudo);
+        panel2.add(boutonPseudo);
+
+        boutonCreate.setEnabled(false);
+        boutonJoin.setEnabled(false);
+
+        panelscroll.setVisible(false);
+        text.setBackground(Color.WHITE);
+
+        setContentSize();
+        setActionListener();
+
+        getContentPane().add(panel4);
+        setVisible(true);
+    }
 	
 	private void setContentSize() {
 		textIP.setMaximumSize(new Dimension(200,24));
@@ -102,7 +108,6 @@ public class Fenetre extends JFrame implements ActionListener {
 		textPort.setMaximumSize(new Dimension(200,24));
 		textMessage.setMaximumSize(new Dimension(200,24));
 		textPseudo.setMaximumSize(new Dimension(200,24));
-		textOwner.setMaximumSize(new Dimension(200,24));
 	}
 	
 	private void setActionListener() {
@@ -113,11 +118,12 @@ public class Fenetre extends JFrame implements ActionListener {
 		boutonQuitter.addActionListener(this);
 		boutonEnvoyerMessage.addActionListener(this);
 		boutonJoin.addActionListener(this);
+		boutonPseudo.addActionListener(this);
 	}
 	
 	public static void readDatabase() {
 		text.removeAll();
-        ResultSet resultSet = DatabaseReader.getMessages(c1.getPseudo());
+		ResultSet resultSet = DatabaseReader.getMessages(c1.getPseudo());
         try {
             while (resultSet.next()) {
                 label = new JLabel(resultSet.getString("pseudo")+" : "+resultSet.getString("msg"));
@@ -133,12 +139,17 @@ public class Fenetre extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 		
+		if(source == boutonPseudo ) {
+            boutonCreate.setEnabled(true);
+            boutonJoin.setEnabled(true);
+            panel2.remove(labelPseudo);
+            panel2.remove(textPseudo);
+            panel2.remove(boutonPseudo);
+         }
 		if(source == boutonCreate){
 			boutonCreate.setEnabled(false);
 			boutonJoin.setEnabled(false);
 			
-			panel2.add(labelOwner);
-			panel2.add(textOwner);
 			panel2.add(labelIP);
 			panel2.add(textIP);
 			panel2.add(labelPort);
@@ -149,8 +160,6 @@ public class Fenetre extends JFrame implements ActionListener {
 			boutonCreate.setEnabled(false);
 			boutonJoin.setEnabled(false);
 			
-			panel2.add(labelPseudo);
-			panel2.add(textPseudo);
 			panel2.add(labelIP);
 			panel2.add(textIP);
 			panel2.add(labelPort);
@@ -167,14 +176,12 @@ public class Fenetre extends JFrame implements ActionListener {
 			PortValue = Integer.parseInt(PortValueString);
 			
 			s.connect(Ipvalue, PortValue);
-			s.open(textOwner.getText());
+			s.open(textPseudo.getText());
 			
 			panel2.remove(textIP);
 			panel2.remove(textPort);
 			panel2.remove(labelIP);
-			panel2.remove(labelPort);
-			panel2.remove(labelOwner);
-			panel2.remove(textOwner);			
+			panel2.remove(labelPort);			
 			panel3.remove(boutonValidateCreate);	
 		}
 	
@@ -194,7 +201,6 @@ public class Fenetre extends JFrame implements ActionListener {
 
 			c1 = new Client(clientPseudo);
 			c1.connect(Ipvalue,PortValue);
-			Database.init(c1.getPseudo());
 			
 			panel2.remove(textIP);
 			panel2.remove(textPort);
@@ -218,9 +224,6 @@ public class Fenetre extends JFrame implements ActionListener {
 			Message = textMessage.getText();
 			Message msg1 = new Message(c1.getPseudo(), Message);
 			c1.msg(msg1);	
-			
-			readDatabase();
-			
 			textMessage.setText("");
 		}
 		
