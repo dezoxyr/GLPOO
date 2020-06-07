@@ -6,8 +6,10 @@ import interfaceGUI.Fenetre;
 import server.database.Database;
 import utils.Message;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
+/**
+ * Class Client
+ * */
 
 public class Client{ //Singleton
 	
@@ -19,13 +21,32 @@ public class Client{ //Singleton
 	private BufferedReader reader;
 	private static String pseudo;
 	
+	/**
+	 * Constructor
+	 * @param p
+	 	*Client's pseudo 
+	 * */
+	
 	public Client(String p) {
 		pseudo = p;
 	}
 	
+	/**
+	 * Get the pseudo of a client
+	 * @return the pseudo of the client
+	 * */
+	
 	public String getPseudo() {
 		return pseudo;
 	}
+	
+	/**
+	 * Connect a client to a server
+	 * @param ip
+	 	*The ip you want to use
+	 *@param port
+	 	*The port of the server 
+	 * */
 	
 	public void connect(String ip, int port) {
 
@@ -44,6 +65,14 @@ public class Client{ //Singleton
 		}
 	}
 	
+	/**
+	 * Send a message to the server in a new Thread
+	 * @param socket
+	 	*The socket connected to the server
+	 *@param msg
+	 	*The message you want to send 
+	 * */
+	
 	public void sendText(Socket socket, String msg) {	
 		Thread envoyer = new Thread(new Runnable() {
 			@Override
@@ -55,11 +84,21 @@ public class Client{ //Singleton
 		envoyer.start();
 	}
 	
+	/**
+	 * Create a Json with the message and the message's sender
+	 * @param message
+	 	*The message 
+	 * */
+	
 	public void msg(Message message) {
 		Gson gson = new Gson();
 		String json = gson.toJson(message);
 		sendText(socket, json);
 	}
+	
+	/**
+	 * Receive server's response and print it in the chat. Run in a Thread.
+	 * */
 	
 	public void receive() {
 		Thread recevoir = new Thread(new Runnable() {

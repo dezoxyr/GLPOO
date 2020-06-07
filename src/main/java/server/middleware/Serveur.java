@@ -4,9 +4,9 @@ import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gson.Gson;
-
-import utils.Message;
+/**
+ * Class Serveur
+ * */
 
 public class Serveur {
 
@@ -15,6 +15,13 @@ public class Serveur {
 	private List<Socket> sockets = new ArrayList<Socket>();
 	private String owner;
 	
+	/**
+	 * Create a server
+	 * @param ip
+	 	*The ip you want to use
+	 *@param port
+	 	*The port you want to use 
+	 * */
 	
 	public void connect(String ip, int port) {
 		try {
@@ -24,6 +31,12 @@ public class Serveur {
 			System.out.println (ioe.getMessage());
 		}
 	}
+	
+	/**
+	 * Open a server allowing its to receive clients connections
+	 * @param owner
+	 	*The owner of the server 
+	 * */
 	
 	public void open(String owner) {
 		this.owner = owner;
@@ -40,7 +53,6 @@ public class Serveur {
 							@Override
 							public void run() {
 								String text = null;
-								Message rmsg = null;
 								while(true) {
 								try {
 									text = reader.readLine();

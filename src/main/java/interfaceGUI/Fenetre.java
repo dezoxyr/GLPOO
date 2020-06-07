@@ -6,7 +6,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import client.Client;
-import server.database.Database;
 import server.database.DatabaseReader;
 import server.middleware.Serveur;
 
@@ -23,6 +22,11 @@ import utils.Message;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+
+/**
+ * Class Fenetre
+ * 
+ * **/
 
 public class Fenetre extends JFrame implements ActionListener {
 	
@@ -64,6 +68,10 @@ public class Fenetre extends JFrame implements ActionListener {
 	private Serveur s = new Serveur();
 	private static Client c1;
 	
+	/**
+	 * Create the GUI
+	 * **/
+	
 	public void buildPanel() {
         setTitle("Messagerie");
         setMinimumSize(new Dimension(700,500));
@@ -100,7 +108,10 @@ public class Fenetre extends JFrame implements ActionListener {
         getContentPane().add(panel4);
         setVisible(true);
     }
-	
+	/**
+	 * Set the size of the differents items
+	 * **/
+		
 	private void setContentSize() {
 		textIP.setMaximumSize(new Dimension(200,24));
 		textPort.setMaximumSize(new Dimension(200,24));
@@ -109,6 +120,10 @@ public class Fenetre extends JFrame implements ActionListener {
 		textMessage.setMaximumSize(new Dimension(200,24));
 		textPseudo.setMaximumSize(new Dimension(200,24));
 	}
+	
+	/**
+	 *  Set an ActionListener for an item
+	 * **/
 	
 	private void setActionListener() {
 		boutonCreate.addActionListener(this);
@@ -121,9 +136,13 @@ public class Fenetre extends JFrame implements ActionListener {
 		boutonPseudo.addActionListener(this);
 	}
 	
-	public static void readDatabase() {
-		text.removeAll();
-		ResultSet resultSet = DatabaseReader.getMessages(c1.getPseudo());
+	/**
+	 * Refresh the Chat screen from the Database
+	 * **/	
+	
+	public static void readDatabase() {	//Actualise la fenetre contenant les messages du sallon
+		text.removeAll();	//efface les anciens textes
+		ResultSet resultSet = DatabaseReader.getMessages(c1.getPseudo());	//récupere le contenu de la DB
         try {
             while (resultSet.next()) {
                 label = new JLabel(resultSet.getString("pseudo")+" : "+resultSet.getString("msg"));
@@ -135,6 +154,10 @@ public class Fenetre extends JFrame implements ActionListener {
         text.revalidate();
         text.repaint();
 	}
+	
+	/**
+	 * Get the action performed by the user
+	 * **/
 	
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();

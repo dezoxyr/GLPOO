@@ -4,10 +4,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Class DatabaseReader
+ * */
+
 public class DatabaseReader extends Database{
 	
 	static ResultSet r = null;
 	static PreparedStatement ps = null;
+	
+	/**
+	 * Get messages of a client from the database
+	 * @param client
+	 	*The pseudo of whom you want the messages
+	 *@return a ResultSet with the different messages of the client
+	 * */
 	
 	public static ResultSet getMessages(String client) {
 		try {

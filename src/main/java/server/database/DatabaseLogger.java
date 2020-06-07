@@ -5,8 +5,20 @@ import java.sql.SQLException;
 
 import utils.Message;
 
+/**
+ * Class DatabaseLogger
+ * */
+
 public class DatabaseLogger {
 
+	/**
+	 * Store a client's message in the database
+	 * @param client
+	 	*The pseudo of the client
+	 *@param msg
+	 	*The client's message 
+	 * */
+	
 	public static void store(String client, Message msg){
 		try {
 			PreparedStatement ps = Database.getConnection().prepareStatement("INSERT INTO messages(pseudo,client,msg,date) VALUES (?,?,?,CURRENT_DATE)");
