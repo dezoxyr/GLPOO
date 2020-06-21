@@ -38,15 +38,18 @@ conversations précédentes jusqu’à ce qu’ils les suppriment.
 
   ### Ecran de départ où l'utilisateur renseigne son pseudo
   
+  ![Ecran principal](https://github.com/dezoxyr/GLPOO/blob/master/images_readme/Ecran_Principal.PNG)
+  
   ### Ecran création d'une salle où l'utilisateur choisi l'adresse IP et le port de la salle
+  
+  ![Ecran création](https://github.com/dezoxyr/GLPOO/blob/master/images_readme/Ecran_Creation_Salle.PNG)
   
   ### Ecran rejoindre une salle où l'utilisateur renseigne l'adresse IP et le port de la salle qu'il désire rejoindre
   
+  ![Ecran rejoindre](https://github.com/dezoxyr/GLPOO/blob/master/images_readme/Ecran_Rejoindre_Salle.PNG)
+  
   ### Exemple d'une communication entre deux utilisateurs dans une même salle
   
-  
-  
+  ![Conversation 1](https://github.com/dezoxyr/GLPOO/blob/master/images_readme/Conversation_1.PNG)
 
-
-
-
+  ![Conversation 2](https://github.com/dezoxyr/GLPOO/blob/master/images_readme/Conversation_2.PNG)
