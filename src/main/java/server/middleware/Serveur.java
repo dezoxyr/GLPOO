@@ -8,7 +8,7 @@ import java.util.List;
  * Class Serveur
  * */
 
-public class Serveur {
+public class Serveur extends Abstractserver{
 
 	private boolean isrunning = true;
 	private ServerSocket ss;
