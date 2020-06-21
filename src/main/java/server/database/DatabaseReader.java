@@ -8,7 +8,7 @@ import java.sql.SQLException;
  * Class DatabaseReader
  * */
 
-public class DatabaseReader extends Database{
+public class DatabaseReader extends Database implements ReadDB{
 	
 	static ResultSet r = null;
 	static PreparedStatement ps = null;

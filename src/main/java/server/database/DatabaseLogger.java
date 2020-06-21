@@ -9,7 +9,7 @@ import utils.Message;
  * Class DatabaseLogger
  * */
 
-public class DatabaseLogger {
+public class DatabaseLogger implements LogDB{
 
 	/**
 	 * Store a client's message in the database

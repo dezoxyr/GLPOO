@@ -4,7 +4,7 @@ package server.database;
  * Class DatabaseBuilder
  * */
 
-public class DatabaseBuilder extends Database{
+public class DatabaseBuilder extends Database implements BuildDB{
 	
 	/**
 	 * Create the database
